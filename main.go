@@ -59,8 +59,8 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 				if err != nil {
 					log.Fatal(err)
 				} else {
-					/*defer response.Body.Close()
-					_, err := io.Copy(os.Stdout, response.Body)
+					defer response.Body.Close()
+					/*_, err := io.Copy(os.Stdout, response.Body)
 					if err != nil {
 						log.Fatal(err)
 					}*/
