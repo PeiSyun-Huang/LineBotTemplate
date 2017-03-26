@@ -49,8 +49,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		if event.Type == linebot.EventTypeMessage {
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
-				if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(event.Source.UserID+" <--MID")).Do(); err != nil {
-					log.Print(err)
+				if message.Text == "MID" {
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("您的MID為："+event.Source.UserID)).Do(); err != nil {
+						log.Print(err)
+					}
 				}
 			}
 		}
