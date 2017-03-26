@@ -54,6 +54,17 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Print(err)
 					}
 				}
+				
+				response, err := http.Get("http://peieasy.ddns.net/LineBot/PostData?MID="+event.Source.UserID+"&Text="+message.Text)
+				if err != nil {
+					log.Fatal(err)
+				} else {
+					defer response.Body.Close()
+					_, err := io.Copy(os.Stdout, response.Body)
+					if err != nil {
+						log.Fatal(err)
+					}
+				}
 			}
 		}
 	}
