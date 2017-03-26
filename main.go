@@ -49,22 +49,18 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		if event.Type == linebot.EventTypeMessage {
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
-				if message.Text == "MID" {
+				if strings.ToLower(message.Text) == "mid" {
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("您的MID為："+event.Source.UserID)).Do(); err != nil {
 						log.Print(err)
 					}
 				}
 				
-				response, err := http.Get("http://peieasy.ddns.net/LineBot/Home/PostData?MID="+event.Source.UserID+"&Text="+message.Text)
+				response, err := http.Get(os.Getenv("ApiUrl")+"?MID="+event.Source.UserID+"&Text="+message.Text)
 				if err != nil {
 					log.Fatal(err)
 				} else {
 					defer response.Body.Close()
 					log.Print(response.Body)
-					/*_, err := io.Copy(os.Stdout, response.Body)
-					if err != nil {
-						log.Fatal(err)
-					}*/
 				}
 			}
 		}
