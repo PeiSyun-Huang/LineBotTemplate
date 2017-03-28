@@ -19,6 +19,7 @@ import (
 	"os"
 	"strings"
 	"github.com/line/line-bot-sdk-go/linebot"
+	"net/url"
 )
 
 var bot *linebot.Client
