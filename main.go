@@ -50,17 +50,24 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
 				if strings.ToLower(message.Text) == "mid" {
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("您的MID為："+event.Source.UserID)).Do(); err != nil {
+					/*if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("您的MID為："+event.Source.UserID)).Do(); err != nil {
 						log.Print(err)
-					}
+					}*/
 				}
+				var urlStr string = os.Getenv("ApiUrl")+"?MID="+event.Source.UserID+"&Text="+message.Text+"&GID="+event.Source.GroupID+"&RID="+event.Source.RoomID
 				
-				response, err := http.Get(os.Getenv("ApiUrl")+"?MID="+event.Source.UserID+"&Text="+message.Text)
-				if err != nil {
-					log.Fatal(err)
+				l3, err3 := url.Parse(urlStr)
+				if err3 != nil {
+					log.Fatal(err3)
 				} else {
-					defer response.Body.Close()
-					log.Print(response.Body)
+					var urlStr2 string = l3.Query().Encode()
+					response, err := http.Get(os.Getenv("ApiUrl") + "?" + urlStr2)
+					if err != nil {
+						log.Fatal(err)
+					} else {
+						defer response.Body.Close()
+						log.Print(response.Body)
+					}
 				}
 			}
 		}
