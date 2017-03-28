@@ -19,7 +19,6 @@ import (
 	"os"
 	"strings"
 	"net/url"
-	"net"
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
